@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
 # methods to handle commands, fork
-
+import os, sys, re
 from os import read, write
         
 def inputs(args):
@@ -35,7 +35,7 @@ def inputs(args):
 
 def command(args):
         for dir in re.split(":", os.environ['PATH']):
-                prog = "%s/%s" % (dor, args[0])
+                prog = "%s/%s" % (dir, args[0])
                 try:
                         os.execve(prog, args, os.environ)
 
