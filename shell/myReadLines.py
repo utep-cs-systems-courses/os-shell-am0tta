@@ -9,9 +9,11 @@ def inputs(args):
         if len(args) == 0:
                 return
 
-        if "escape" in args:
+        # Causes shell to terminate
+        if "exit" in args:
                 exit()
 
+        # Change directory command
         elif "cd" == args[0]:
                 try:
                         if len(args) == 1:
@@ -19,7 +21,7 @@ def inputs(args):
 
                         else:
                                 os.chdir(args[1])
-
+                # Print error message when specified file/directory does not exist
                 except:
                         os.write(1, ("No such file or directory\n" % args[1]).encode())
         else:
@@ -42,8 +44,9 @@ def command(args):
                 except FileNotFoundError:
                         pass
 
-        os.write(2, ("%s: command not found" % args[0]).encode())
-        exit()
+        # Prints an error message when a command is not found
+        os.write(2, ("%s: command not found...\n" % args[0]).encode())
+        #exit()
 
 
 '''''  numLines = 0

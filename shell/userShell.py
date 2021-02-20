@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+
+#! /usr/bin/env python3
 
 # Lab 1: Build a user shell that mimics some of the behaviors of a bash shell
 
@@ -9,7 +10,7 @@ def main():
     
     while 1:
 
-        # print prompt
+        # print prompt $
         if 'PS1' in os.environ:
             os.write(1,(os.environ['PS1']).encode())
         else:
@@ -22,6 +23,8 @@ def main():
 
         userInput = userInput.decode().split("\n")
 
+        # If no command is given (user just presses enter), we go
+        # back to the beginning of the while loop
         if not userInput:
             continue
 
@@ -31,4 +34,5 @@ def main():
         #    exit()
 
 #print("Hello")
-main()
+if __name__ == '__main__':
+    main()
