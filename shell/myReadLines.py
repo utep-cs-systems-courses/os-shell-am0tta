@@ -13,6 +13,9 @@ def inputs(args):
         if "exit" in args:
                 exit()
 
+        if ">" in args:
+                
+
         # Change directory command
         elif "cd" == args[0]:
                 try:
@@ -28,25 +31,36 @@ def inputs(args):
                 rc = os.fork()
 
                 if rc < 0:
-                        os.write(2, ("Fork failure").encode())
+                        os.write(2, ("Fork failed, returning %d\n" % rc).encode())
                         exit()
+
+                
                 elif rc == 0:
                         command(args)
                         exit()
 
 
 def command(args):
-        for dir in re.split(":", os.environ['PATH']):
+
+        # Try each directory in the path
+        for dir in re.split(":", os.environ['PATH']):  
                 prog = "%s/%s" % (dir, args[0])
                 try:
+
+                        # Try to exec program
                         os.execve(prog, args, os.environ)
 
+                # ...expected
                 except FileNotFoundError:
+
+                        # ...failed quitely
                         pass
 
         # Prints an error message when a command is not found
         os.write(2, ("%s: command not found...\n" % args[0]).encode())
-        #exit()
+        
+        # Terminate with error
+        exit()
 
 
 '''''  numLines = 0
