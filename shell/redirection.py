@@ -8,20 +8,65 @@ def outRedir(args):
     # Close fd1 to disconnect it
     os.close(1)
     # Open filename for reading. Creates a file if it's non-existent
-    os.open("filename.txt", os.O_CREAT | os.O_WRONLY)
+    os.open(args[args.index('>') + 1], os.O_CREAT | os.O_WRONLY)
     # Make fd1 inheritable
     os.set_inheritable(1, True)
+    args.remove(args[args.index('>') + 1])
+    args.remove('>')
 
+    # Try each directory in the path
+    for dir in re.split(":", os.environ['PATH']):
+        prog = "%s/%s" % (dir,args[0])
+        
+        try:
+            # Try to exec program
+            os.execve(prog, args, os.environ)
+
+        # ...expected
+        except FileNotFoundError:
+            
+            # ...failed quietly
+            pass
+
+    # Prints error message when a command is not found
+    os.write(2, ("%s command not found\n" % args[0]).encode())
+
+    # Terminate with error
+    exit()
+                        
 # Input redirection
 def inRedir(args):
 
     # Close fd0 to disconnect it
     os.close(0)
-    os.open("filename.txt", os.O_CREAT | os.O_WRONLY)
+    os.open(args[args.index('<') + 1], os.O_CREAT | os.O_RDONLY)
     # Make fd0 inheritable
     os.set_inheritable(0, True)
+    args.remove(args[args.index('<') + 1])
+    args.remove('<')
 
-'''''
+    # Try each directory in the path
+    for dir in re.split(":", os.environ['PATH']):
+        prog = "%s/%s" % (dir,args[0])
+        
+        try:
+            # Try to exec program
+            os.execve(prog, args, os.environ)
+
+        # ...expected
+        except FileNotFoundError:
+            
+            # ...failed quietly
+            pass
+
+    # Prints error message when a command is not found
+    os.write(2, ("%s command not found\n" % args[0]).encode())
+
+    # Terminate with error
+    exit()
+
+    
+'''''    
 pid = os.getpid()               # get and remember pid
 
 os.write(1, ("About to fork (pid=%d)\n" % pid).encode())

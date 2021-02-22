@@ -4,6 +4,7 @@
 # Lab 1: Build a user shell that mimics some of the behaviors of a bash shell
 
 import os, sys, re
+from redirection import outRedir, inRedir
 from myReadLines import inputs, command 
 
 def main():

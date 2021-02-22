@@ -3,7 +3,8 @@
 # methods to handle commands, fork
 import os, sys, re
 from os import read, write
-        
+from redirection import outRedir, inRedir
+
 def inputs(args):
 
         if len(args) == 0:
@@ -12,8 +13,6 @@ def inputs(args):
         # Causes shell to terminate
         if "exit" in args:
                 exit()
-
-        if ">" in args:
                 
 
         # Change directory command
@@ -34,8 +33,12 @@ def inputs(args):
                         os.write(2, ("Fork failed, returning %d\n" % rc).encode())
                         exit()
 
-                
                 elif rc == 0:
+                        if ">" in args:
+                                outRedir(args)
+                        if "<" in args:
+                                inRedir(args)
+
                         command(args)
                         exit()
 
@@ -53,7 +56,7 @@ def command(args):
                 # ...expected
                 except FileNotFoundError:
 
-                        # ...failed quitely
+                        # ...failed quietly
                         pass
 
         # Prints an error message when a command is not found
