@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
 
+# Methods for output and input redirection
 import os, sys, time, re
 
 # Output redirection

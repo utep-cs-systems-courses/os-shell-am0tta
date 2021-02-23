@@ -12,6 +12,7 @@ def inputs(args):
 
         # Causes shell to terminate
         if "exit" in args:
+                print("Have a nice day")
                 exit()
                 
 
