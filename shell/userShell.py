@@ -13,11 +13,12 @@ def main():
 
         # print prompt $
         if 'PS1' in os.environ:
-            os.write(1,(os.environ['PS1']).encode())
+            os.write(1,(os.environ["PS1"]).encode())
         else:
             os.write(1, ("$ ").encode())
             
         userInput = os.read(0, 1024)
+
         
         if len(userInput) == 0:
             break

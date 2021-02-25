@@ -3,6 +3,7 @@
 # methods to handle commands, fork
 import os, sys, re
 from os import read, write
+from pipe import piping
 from redirection import outRedir, inRedir
 
 def inputs(args):
@@ -14,6 +15,10 @@ def inputs(args):
         if "exit" in args:
                 print("Have a nice day")
                 exit()
+        
+        # Pipe command 
+        if "|" in args:
+                piping(args)
                 
 
         # Change directory command
@@ -26,7 +31,7 @@ def inputs(args):
                                 os.chdir(args[1])
                 # Print error message when specified file/directory does not exist
                 except:
-                        os.write(1, ("No such file or directory\n" % args[1]).encode())
+                        os.write(1, ("cd %s: No such file or directory\n" % args[1]).encode())
         else:
                 rc = os.fork()
 
