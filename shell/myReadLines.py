@@ -22,15 +22,22 @@ def inputs(args):
                 
 
         # Change directory command
-        elif "cd" == args[0]:
+
+        elif "cd" in args[0]:
                 try:
                         if len(args) == 1:
                                 return
 
                         else:
                                 os.chdir(args[1])
+
+
                 # Print error message when specified file/directory does not exist
+
+
                 except:
+
+
                         os.write(1, ("cd %s: No such file or directory\n" % args[1]).encode())
         else:
                 rc = os.fork()
